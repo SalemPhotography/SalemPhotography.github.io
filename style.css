@@ -28,9 +28,17 @@
     height: 15%;
      
 }
-
+.vids{
+  vertical-align: middle;
+  border-style: none;
+  height: auto;
+  max-width: 100%;
+  width: 400px;
+  height:235px;
+   
+}
 .service {
-    margin-top: -100px;
+ vids   margin-top: -100px;
 }
 .logo_text{
   max-width: 300px;
@@ -1032,7 +1040,7 @@ img {
         flex: 0 0 100%;
         min-width: 100%; } }
   .hero-area .hero-content {
-    height: 880px;
+    height: auto;
     padding: 100px 0; }
     .hero-area .hero-content .line {
       width: 100px;
@@ -1162,6 +1170,7 @@ img {
   z-index: 1;
   padding: 100px 35px 50px; }
   .sonar-projects-area .single_gallery_item {
+    background-color: white;
     position: relative;
     z-index: 1;
     margin-bottom: 50px; }
