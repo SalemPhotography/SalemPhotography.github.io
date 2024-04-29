@@ -27,7 +27,11 @@
       width: 20%; /* Adjust the width as needed */
     height: 15%;
      
+
 }
+
+#aboutimg {background-image: url(img/bg-img/DSC5592.jpg);
+  }
 .vids{
   vertical-align: middle;
   border-style: none;
