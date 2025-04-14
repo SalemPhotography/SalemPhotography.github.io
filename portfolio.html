@@ -490,11 +490,10 @@
 
         .lightbox-controls {
             position: absolute;
-            bottom: 60px;
-            left: 0;
-            right: 0;
+            top: 20px;
+            right: 80px;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             z-index: 1000;
         }
 
@@ -509,6 +508,9 @@
             transition: background-color 0.3s;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .lightbox-control:hover {
@@ -619,7 +621,7 @@
             <div class="lightbox-caption" id="lightbox-caption"></div>
         </div>
         <div class="lightbox-controls">
-            <button class="lightbox-control" id="lightbox-toggle">Play Slideshow</button>
+            <button class="lightbox-control" id="lightbox-toggle"><i class="fa fa-play-circle"></i> Play Slideshow</button>
         </div>
     </div>
 
@@ -1307,13 +1309,41 @@
             const lightboxPrev = document.getElementById('lightbox-prev');
             const lightboxNext = document.getElementById('lightbox-next');
             const lightboxToggle = document.getElementById('lightbox-toggle');
+            const lightboxControls = document.querySelector('.lightbox-controls');
             
             // Get all portfolio items with images (excluding videos)
             const imageItems = Array.from(portfolioItems).filter(item => !item.classList.contains('video'));
             let currentImageIndex = 0;
             let slideshowInterval = null;
             const slideshowSpeed = 3000; // 3 seconds per image
-
+            let controlsTimeout = null;
+            
+            // Function to hide controls after idle time
+            function hideControlsAfterIdle() {
+                // Clear any existing timeout
+                if (controlsTimeout) {
+                    clearTimeout(controlsTimeout);
+                }
+                
+                // Set a new timeout to hide controls after 1 second
+                controlsTimeout = setTimeout(() => {
+                    lightboxControls.style.opacity = '0';
+                }, 1000);
+            }
+            
+            // Function to show controls
+            function showControls() {
+                lightboxControls.style.opacity = '1';
+                hideControlsAfterIdle();
+            }
+            
+            // Add event listeners to show controls on mouse movement
+            lightbox.addEventListener('mousemove', showControls);
+            lightboxControls.addEventListener('mouseenter', () => {
+                lightboxControls.style.opacity = '1';
+            });
+            lightboxControls.addEventListener('mouseleave', hideControlsAfterIdle);
+            
             // Open lightbox when clicking on an image
             imageItems.forEach((item, index) => {
                 item.addEventListener('click', function() {
@@ -1405,12 +1435,22 @@
 
             // Navigate to previous image
             function navigateToPreviousImage() {
+                // If slideshow is running, pause it first
+                if (slideshowInterval) {
+                    pauseSlideshow();
+                }
+                
                 currentImageIndex = (currentImageIndex - 1 + imageItems.length) % imageItems.length;
                 updateLightboxImage();
             }
 
             // Navigate to next image
             function navigateToNextImage() {
+                // If slideshow is running, pause it first
+                if (slideshowInterval) {
+                    pauseSlideshow();
+                }
+                
                 currentImageIndex = (currentImageIndex + 1) % imageItems.length;
                 updateLightboxImage();
             }
@@ -1419,8 +1459,13 @@
             function startSlideshow() {
                 if (slideshowInterval) return;
                 
+                // Clear any existing interval first
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                }
+                
                 slideshowInterval = setInterval(navigateToNextImage, slideshowSpeed);
-                lightboxToggle.textContent = 'Pause Slideshow';
+                lightboxToggle.innerHTML = '<i class="fa fa-pause-circle"></i> Pause Slideshow';
                 lightboxToggle.classList.add('active');
             }
 
@@ -1430,7 +1475,7 @@
                     clearInterval(slideshowInterval);
                     slideshowInterval = null;
                 }
-                lightboxToggle.textContent = 'Play Slideshow';
+                lightboxToggle.innerHTML = '<i class="fa fa-play-circle"></i> Play Slideshow';
                 lightboxToggle.classList.remove('active');
             }
 
