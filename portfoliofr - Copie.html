@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Portfolio - Salem Loumissi Photography</title>
+    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: "Roboto", sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+
+        /* Header Styles */
+        .header-area {
+            background-color: #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .site-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #000;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #333;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #000;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #fff;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            transition-duration: 500ms;
+        }
+
+        .btn:hover {
+            background-color: #333;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 0;
+        }
+
+        .portfolio-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .portfolio-header h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .portfolio-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: #f0f0f0;
+            border: none;
+            color: #666;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: #333;
+            background: #e0e0e0;
+        }
+
+        .filter-btn:hover::after,
+        .filter-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.2s forwards;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .portfolio-item.hidden {
+            display: none;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* Add styles for vertical images */
+        .portfolio-item.portrait img,
+        .portfolio-item.art img,
+        .portfolio-item.landscape img {
+            height: 550px;
+        }
+
+        /* Add styles for horizontal images - make them taller like portrait photos */
+        .portfolio-item.culinary img,
+        .portfolio-item.studio img {
+            height: 550px;
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-item img {
+                height: 350px;
+            }
+
+            .portfolio-item.portrait img,
+            .portfolio-item.art img,
+            .portfolio-item.landscape img {
+                height: 450px;
+            }
+
+            .portfolio-item.culinary img,
+            .portfolio-item.studio img {
+                height: 250px;
+            }
+        }
+
+        .portfolio-item-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            z-index: 2;
+            will-change: opacity, transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .portfolio-item:hover .portfolio-item-content {
+            transform: translateY(0);
+        }
+
+        /* Fix for horizontal images to prevent gap */
+        .portfolio-item:not(.portrait):not(.video):not(.art):not(.landscape) .portfolio-item-content {
+            transform: translateY(calc(100% - 15px));
+        }
+
+        .portfolio-item:not(.portrait):not(.video):not(.art):not(.landscape):hover .portfolio-item-content {
+            transform: translateY(0);
+        }
+
+        .portfolio-item-content h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .portfolio-item-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 0;
+            height: 550px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .video-container {
+                height: 450px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer i {
+            color: #ff6b6b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                margin-top: 15px;
+            }
+
+            .nav-menu li {
+                margin-left: 15px;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .portfolio-item img {
+                height: 250px;
+            }
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+        }
+
+        .lightbox.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .lightbox-image.fade-out {
+            opacity: 0;
+        }
+
+        .lightbox-image.fade-in {
+            opacity: 1;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 10px;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .lightbox-caption.fade-out {
+            opacity: 0;
+        }
+
+        .lightbox-caption.fade-in {
+            opacity: 1;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            opacity: 0.8;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            top: 20px;
+            right: 80px;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 1000;
+        }
+
+        .lightbox-control {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lightbox-control:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox-control.active {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .portfolio-item {
+            cursor: pointer;
+        }
+
+        /* Optimize animations */
+        @media (prefers-reduced-motion: reduce) {
+            .portfolio-item {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Optimize image loading */
+        .portfolio-item img {
+            content-visibility: auto;
+            contain: content;
+        }
+
+        /* Optimize transitions */
+        .portfolio-item-content {
+            will-change: opacity, transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="sonar-load"></div>
+        </div>
+    </div>
+
+    <div class="grids d-flex justify-content-between">
+        <div class="grid1"></div>
+        <div class="grid2"></div>
+        <div class="grid3"></div>
+        <div class="grid4"></div>
+        <div class="grid5"></div>
+        <div class="grid6"></div>
+        <div class="grid7"></div>
+        <div class="grid8"></div>
+        <div class="grid9"></div>
+    </div>
+
+    <div class="mainMenu d-flex align-items-center justify-content-between">
+        <div class="closeIcon">
+            <div class="closer-container">
+                <div class="leftrightr"></div>
+                <div class="rightleftr"></div>
+                <label class="closer">X</label>
+            </div>
+        </div>
+
+        <div class="logo-area">
+            <a href="indexfr.html">Salem Loumissi</a>
+        </div>
+
+        <div class="sonarNav wow fadeInUp" data-wow-delay="1s">
+            <nav>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="indexfr.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about-mefr.html">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="servicesfr.html">Services</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="portfoliofr.html">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contactfr.html">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="copywrite-text">
+            <p>
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tous droits réservés | Ce site web a été créé avec <i class="fa fa-heart-o" aria-hidden="true"></i> par Salem Loumissi
+            </p>
+        </div>
+    </div>
+
+    <header class="header-area sticky">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="menu-area d-flex justify-content-between">
+                        <div class="logo-area">
+                            <a href="indexfr.html"><img class="logo_img" src="img/core-img/logoico.png"></a><a href="indexfr.html">Salem Loumissi</a>
+                        </div>
+                        <div class="menu-content-area d-flex align-items-center">
+                            <div class="header-social-area d-flex align-items-center">
+                                <a target="_blank" href="https://www.youtube.com/channel/UCha_iTucrXwr3auf28pBbPw" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                                <a target="_blank" href="https://www.pinterest.ca/lloumsa1/" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                <a target="_blank" href="https://fr.linkedin.com/in/salem-loumissi-1a3857186" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a target="_blank" href="https://www.instagram.com/salemloumissi/" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                <a href="portfolio.html" class="large-div" data-toggle="tooltip" data-placement="bottom" title="English"><img class="flag" src="img/core-img/uk.png" aria-hidden="true"></img></a>
+                            </div>
+                            <span class="navbar-toggler-icon" id="menuIcon"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-close" id="lightbox-close">&times;</div>
+        <div class="lightbox-nav lightbox-prev" id="lightbox-prev">&lt;</div>
+        <div class="lightbox-nav lightbox-next" id="lightbox-next">&gt;</div>
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-image" id="lightbox-image">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+        <div class="lightbox-controls">
+            <button class="lightbox-control" id="lightbox-toggle"><i class="fa fa-play-circle"></i> Lancer le diaporama</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Mon Portfolio</h1>
+            <p>Une collection sélectionnée de mes œuvres photographiques, présentant des moments, des émotions et des histoires capturés à travers mon objectif.</p>
+            <a href="contactfr.html" class="btn">Me Contacter</a>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio">
+        <div class="portfolio-container">
+            <div class="portfolio-header">
+                <h2>Œuvres en Vedette</h2>
+                <p>Explorez mon portfolio diversifié de projets photographiques et vidéographiques.</p>
+            </div>
+
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">Tout</button>
+                <button class="filter-btn" data-filter="art">Art</button>
+                <button class="filter-btn" data-filter="culinary">Culinaire</button>
+                <button class="filter-btn" data-filter="landscape">Paysage</button>
+                <button class="filter-btn" data-filter="portrait">Portrait</button>
+                <button class="filter-btn" data-filter="studio">Studio</button>
+                <button class="filter-btn" data-filter="video">Vidéo</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <!-- Art Items -->
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_26.jpg" alt="La vraie valeur en temps de faim" loading="lazy">
+                    <div class="portfolio-item-content">
+                        <h3>La vraie valeur en temps de faim</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_78.jpg" alt="Contrastes Cosmiques" loading="lazy">
+                    <div class="portfolio-item-content">
+                        <h3>Contrastes Cosmiques</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_015546.jpg" alt="Brillance Lumineuse">
+                    <div class="portfolio-item-content">
+                        <h3>Brillance Lumineuse</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_020735.jpg" alt="Focus Rouge">
+                    <div class="portfolio-item-content">
+                        <h3>Focus Rouge</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <!-- Culinary Items -->
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/culinary/Photo1920_01190820121.jpg" alt="Publicité pour Becel">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour Becel</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/culinary/Photo1920_1382.jpg" alt="Fête d'anniversaire">
+                    <div class="portfolio-item-content">
+                        <h3>Fête d'anniversaire</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/culinary/Photo1920_58.jpg" alt="Combo Gagnant">
+                    <div class="portfolio-item-content">
+                        <h3>Combo Gagnant</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <!-- Landscape Items -->
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_007728.jpg" alt="Sérénité sur l'eau">
+                    <div class="portfolio-item-content">
+                        <h3>Sérénité sur l'eau</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_008329.jpg" alt="Grâce Immobile">
+                    <div class="portfolio-item-content">
+                        <h3>Grâce Immobile</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_009830.jpg" alt="Contemplation au bord de l'eau">
+                    <div class="portfolio-item-content">
+                        <h3>Contemplation au bord de l'eau</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_00418172.jpg" alt="Rêveries nuageuses sur vagues calmes">
+                    <div class="portfolio-item-content">
+                        <h3>Rêveries nuageuses sur vagues calmes</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_020234.jpg" alt="Exploration Colorée">
+                    <div class="portfolio-item-content">
+                        <h3>Exploration Colorée</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_702144.jpg" alt="Distorsions Sylvestres">
+                    <div class="portfolio-item-content">
+                        <h3>Distorsions Sylvestres</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_1510490968.jpg" alt="Connexion Chaude">
+                    <div class="portfolio-item-content">
+                        <h3>Connexion Chaude</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_1510500669.jpg" alt="Vie dans le Bois">
+                    <div class="portfolio-item-content">
+                        <h3>Vie dans le Bois</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_658939.jpg" alt="Contes de Canards">
+                    <div class="portfolio-item-content">
+                        <h3>Contes de Canards</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_662941.jpg" alt="Félin Urbain">
+                    <div class="portfolio-item-content">
+                        <h3>Félin Urbain</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item landscape">
+                    <img src="img/portfolio-img/landscape/Photo1920_700243.jpg" alt="Regard Animal sur le Sol">
+                    <div class="portfolio-item-content">
+                        <h3>Regard Animal sur le Sol</h3>
+                        <p>Paysage</p>
+                    </div>
+                </div>
+
+                <!-- Portrait Items -->
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Photo1920_0127452.jpg" alt="Hors Phase">
+                    <div class="portfolio-item-content">
+                        <h3>Hors Phase</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Photo1920_550056.jpg" alt="Hors Focus">
+                    <div class="portfolio-item-content">
+                        <h3>Hors Focus</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Photo1920_20140216842.jpg" alt="Un sourire radieux">
+                    <div class="portfolio-item-content">
+                        <h3>Un sourire radieux</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Photo1920_2013580782.jpg" alt="Haute-Vue">
+                    <div class="portfolio-item-content">
+                        <h3>Haute-Vue</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Photo1920_36.jpg" alt="Rêveries Ensoleillées">
+                    <div class="portfolio-item-content">
+                        <h3>Rêveries Ensoleillées</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_2.jpg" alt="Juste nous deux">
+                    <div class="portfolio-item-content">
+                        <h3>Juste nous deux</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_3.jpg" alt="Instant d'éternité">
+                    <div class="portfolio-item-content">
+                        <h3>Instant d'éternité</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_4.jpg" alt="Le baiser du oui">
+                    <div class="portfolio-item-content">
+                        <h3>Le baiser du oui</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_5.jpg" alt="Jeux d'enfance, amour de père">
+                    <div class="portfolio-item-content">
+                        <h3>Jeux d'enfance, amour de père</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_6.jpg" alt="Moderne et Professionnel">
+                    <div class="portfolio-item-content">
+                        <h3>Moderne et Professionnel</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_7.jpg" alt="Professionnel en pleine nature">
+                    <div class="portfolio-item-content">
+                        <h3>Professionnel en pleine nature</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_8.jpg" alt="Là où le regard s'égare">
+                    <div class="portfolio-item-content">
+                        <h3>Là où le regard s'égare</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_9.jpg" alt="Entre pensée et pause">
+                    <div class="portfolio-item-content">
+                        <h3>Entre pensée et pause</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_10.jpg" alt="Un sourire au sommet">
+                    <div class="portfolio-item-content">
+                        <h3>Un sourire au sommet</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_11.jpg" alt="Détente assurée">
+                    <div class="portfolio-item-content">
+                        <h3>Détente assurée</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_20.jpg" alt="Prêt pour l'objectif">
+                    <div class="portfolio-item-content">
+                        <h3>Prêt pour l'objectif</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_22.jpg" alt="Tendresse silencieuse">
+                    <div class="portfolio-item-content">
+                        <h3>Tendresse silencieuse</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_23.jpg" alt="Enlacées dans l'amour">
+                    <div class="portfolio-item-content">
+                        <h3>Enlacées dans l'amour</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_30.jpg" alt="Défilé de MAD Montréal 2024">
+                    <div class="portfolio-item-content">
+                        <h3>Défilé de MAD Montréal 2024</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_31.jpg" alt="Défilé de MAD Montréal 2024">
+                    <div class="portfolio-item-content">
+                        <h3>Défilé de MAD Montréal 2024</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_32.jpg" alt="Défilé de MAD Montréal 2024">
+                    <div class="portfolio-item-content">
+                        <h3>Défilé de MAD Montréal 2024</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_33.jpg" alt="Défilé de MAD Montréal 2024">
+                    <div class="portfolio-item-content">
+                        <h3>Défilé de MAD Montréal 2024</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_34.jpg" alt="Suspens et vitesse">
+                    <div class="portfolio-item-content">
+                        <h3>Suspens et vitesse</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_35.jpg" alt="Équilibre extrême">
+                    <div class="portfolio-item-content">
+                        <h3>Équilibre extrême</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_36.jpg" alt="Action et Concentration">
+                    <div class="portfolio-item-content">
+                        <h3>Action et Concentration</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_37.jpg" alt="Marié et Mariée Heureux">
+                    <div class="portfolio-item-content">
+                        <h3>Marié et Mariée Heureux</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_38.jpg" alt="Éclat dans l'action">
+                    <div class="portfolio-item-content">
+                        <h3>Éclat dans l'action</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_40.jpg" alt="Dernières lueurs">
+                    <div class="portfolio-item-content">
+                        <h3>Dernières lueurs</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_41.jpg" alt="Regard ambré">
+                    <div class="portfolio-item-content">
+                        <h3>Regard ambré</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_42.jpg" alt="Teintes tranquilles">
+                    <div class="portfolio-item-content">
+                        <h3>Teintes tranquilles</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item portrait">
+                    <img src="img/portfolio-img/portrait/Projet_WEB_43.jpg" alt="Noir sur fond d'ocre">
+                    <div class="portfolio-item-content">
+                        <h3>Noir sur fond d'ocre</h3>
+                        <p>Portrait</p>
+                    </div>
+                </div>
+
+                <!-- Studio Items -->
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_0108112.jpg" alt="Publicité pour Salvo Intense">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour Salvo Intense</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_1136.jpg" alt="Publicité pour Salvo Intense dans la fumée">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour Salvo Intense dans la fumée</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_135.jpg" alt="Milkblast">
+                    <div class="portfolio-item-content">
+                        <h3>Milkblast</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_0061109.jpg" alt="Publicité pour L'Oréal">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour L'Oréal</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_0113240495.jpg" alt="Le Prince Charmant">
+                    <div class="portfolio-item-content">
+                        <h3>Le Prince Charmant</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_105.jpg" alt="Mon meilleur ami l'α7 IV">
+                    <div class="portfolio-item-content">
+                        <h3>Mon meilleur ami l'α7 IV</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_134.jpg" alt="Thé-Explosion">
+                    <div class="portfolio-item-content">
+                        <h3>Thé-Explosion</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_2814370686.jpg" alt="Publicité pour Hertel">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour Hertel</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item studio">
+                    <img src="img/portfolio-img/studio/Photo1920_2815383589.jpg" alt="Hydroflask">
+                    <div class="portfolio-item-content">
+                        <h3>Hydroflask</h3>
+                        <p>Studio</p>
+                    </div>
+                </div>
+
+                <!-- Additional Art Items -->
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_0568557.jpg" alt="Danse Aquatique">
+                    <div class="portfolio-item-content">
+                        <h3>Danse Aquatique</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_996142.jpg" alt="À Moitié Vide, Totalement Brûlant">
+                    <div class="portfolio-item-content">
+                        <h3>À Moitié Vide, Totalement Brûlant</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_1712220565.jpg" alt="Spirale Chromatique">
+                    <div class="portfolio-item-content">
+                        <h3>Spirale Chromatique</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item art">
+                    <img src="img/portfolio-img/art/Photo1920_170844345967385.jpg" alt="Mosaïque de Verdure">
+                    <div class="portfolio-item-content">
+                        <h3>Mosaïque de Verdure</h3>
+                        <p>Projet Artistique</p>
+                    </div>
+                </div>
+
+                <!-- Additional Culinary Items -->
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/culinary/Saveur2S.jpg" alt="Publicité pour Saveur2S">
+                    <div class="portfolio-item-content">
+                        <h3>Publicité pour Saveur2S</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/culinary/Photo1920_122.jpg" alt="Thé à la Marocaine">
+                    <div class="portfolio-item-content">
+                        <h3>Thé à la Marocaine</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item culinary">
+                    <img src="img/portfolio-img/studio/Photo1920_2815183988.jpg" alt="Douceur Blanche">
+                    <div class="portfolio-item-content">
+                        <h3>Douceur Blanche</h3>
+                        <p>Culinaire</p>
+                    </div>
+                </div>
+
+                <!-- Video Items -->
+                <div class="portfolio-item video">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/a-Lppk7fD0o" title="Cookies Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-item-content">
+                        <h3>Cookies🍪😋</h3>
+                        <p>Vidéo</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item video">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/bNh_l0ElWlw" title="Thirsty Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-item-content">
+                        <h3>Soif ? 🍋☀️</h3>
+                        <p>Vidéo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> Tous droits réservés | Ce site web a été créé avec <i class="fa fa-heart"></i> par Salem Loumissi</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/active.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Portfolio page loaded - French version');
+            
+            // Get category from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            console.log('Category from URL:', category);
+            
+            // Portfolio filtering
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            console.log('Filter buttons:', filterButtons.length);
+            console.log('Portfolio items:', portfolioItems.length);
+            
+            // Add staggered animation delays to portfolio items
+            portfolioItems.forEach((item, index) => {
+                // Calculate delay based on position (row * 4 + column)
+                const row = Math.floor(index / 4);
+                const col = index % 4;
+                const delay = (row * 4 + col) * 200; // 200ms delay per item
+                
+                // Set the animation delay
+                item.style.animationDelay = `${delay}ms`;
+            });
+
+            // Function to filter portfolio items
+            function filterPortfolioItems(filter) {
+                console.log('Filtering portfolio items by:', filter);
+                
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Find and activate the correct button
+                const activeButton = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                    console.log('Activated button:', filter);
+                } else {
+                    console.log('Button not found for filter:', filter);
+                }
+                
+                // Hide all items first without changing their position in the document flow
+                portfolioItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.visibility = 'hidden';
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                
+                // After a short delay, show the filtered items with animation
+                setTimeout(() => {
+                    let visibleCount = 0;
+                    portfolioItems.forEach(item => {
+                        if (filter === 'all' || item.classList.contains(filter)) {
+                            item.style.visibility = 'visible';
+                            // Reset animation
+                            item.style.animation = 'none';
+                            item.offsetHeight; // Trigger reflow
+                            // Calculate new delay based on visible position
+                            const delay = visibleCount * 200;
+                            item.style.animation = `fadeInUp 1.2s forwards ${delay}ms`;
+                            visibleCount++;
+                        }
+                    });
+                    console.log('Visible items after filtering:', visibleCount);
+                }, 100);
+            }
+
+            // Apply initial filter if category is in URL
+            if (category) {
+                console.log('Applying initial filter from URL:', category);
+                // Add a small delay to ensure the DOM is fully loaded
+                setTimeout(() => {
+                    filterPortfolioItems(category);
+                }, 100);
+            } else {
+                console.log('No category in URL, showing all items');
+                // Add a small delay to ensure the DOM is fully loaded
+                setTimeout(() => {
+                    filterPortfolioItems('all');
+                }, 100);
+            }
+
+            // Add click event listeners to filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Prevent default behavior
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const filter = this.getAttribute('data-filter');
+                    console.log('Filter button clicked:', filter);
+                    
+                    // Update URL without reloading the page
+                    const url = new URL(window.location);
+                    url.searchParams.set('category', filter);
+                    window.history.pushState({}, '', url);
+                    
+                    // Filter the portfolio items
+                    filterPortfolioItems(filter);
+                });
+            });
+
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const lightboxPrev = document.getElementById('lightbox-prev');
+            const lightboxNext = document.getElementById('lightbox-next');
+            const lightboxToggle = document.getElementById('lightbox-toggle');
+            const lightboxControls = document.querySelector('.lightbox-controls');
+            
+            // Get all portfolio items with images (excluding videos)
+            const imageItems = Array.from(portfolioItems).filter(item => !item.classList.contains('video'));
+            let currentImageIndex = 0;
+            let slideshowInterval = null;
+            const slideshowSpeed = 3000; // 3 seconds per image
+            let controlsTimeout = null;
+            
+            // Function to hide controls after idle time
+            function hideControlsAfterIdle() {
+                // Clear any existing timeout
+                if (controlsTimeout) {
+                    clearTimeout(controlsTimeout);
+                }
+                
+                // Set a new timeout to hide controls after 1 second
+                controlsTimeout = setTimeout(() => {
+                    lightboxControls.style.opacity = '0';
+                }, 1000);
+            }
+            
+            // Function to show controls
+            function showControls() {
+                lightboxControls.style.opacity = '1';
+                hideControlsAfterIdle();
+            }
+            
+            // Add event listeners to show controls on mouse movement
+            lightbox.addEventListener('mousemove', showControls);
+            lightboxControls.addEventListener('mouseenter', () => {
+                lightboxControls.style.opacity = '1';
+            });
+            lightboxControls.addEventListener('mouseleave', hideControlsAfterIdle);
+            
+            // Open lightbox when clicking on an image
+            imageItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    const caption = this.querySelector('h3').textContent;
+                    const category = this.querySelector('p').textContent;
+                    
+                    lightboxImage.src = img.src;
+                    lightboxImage.alt = img.alt;
+                    lightboxCaption.textContent = `${caption} - ${category}`;
+                    
+                    currentImageIndex = index;
+                    lightbox.classList.add('active');
+                    
+                    // Prevent scrolling when lightbox is open
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Reset slideshow state
+                    if (slideshowInterval) {
+                        pauseSlideshow();
+                    }
+                    
+                    // Add body key listener
+                    addBodyKeyListener();
+                });
+            });
+
+            // Close lightbox
+            lightboxClose.addEventListener('click', function() {
+                closeLightbox();
+            });
+
+            // Close lightbox when clicking outside the image
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Navigate to previous image
+            lightboxPrev.addEventListener('click', function() {
+                navigateToPreviousImage();
+            });
+
+            // Navigate to next image
+            lightboxNext.addEventListener('click', function() {
+                navigateToNextImage();
+            });
+
+            // Toggle slideshow
+            lightboxToggle.addEventListener('click', function() {
+                if (slideshowInterval) {
+                    pauseSlideshow();
+                } else {
+                    startSlideshow();
+                }
+            });
+
+            // Update lightbox image and caption
+            function updateLightboxImage() {
+                // Fade out current image and caption
+                lightboxImage.classList.add('fade-out');
+                lightboxCaption.classList.add('fade-out');
+                
+                // Wait for fade out to complete before changing image
+                setTimeout(() => {
+                    const item = imageItems[currentImageIndex];
+                    const img = item.querySelector('img');
+                    const caption = item.querySelector('h3').textContent;
+                    const category = item.querySelector('p').textContent;
+                    
+                    lightboxImage.src = img.src;
+                    lightboxImage.alt = img.alt;
+                    lightboxCaption.textContent = `${caption} - ${category}`;
+                    
+                    // Fade in new image and caption
+                    lightboxImage.classList.remove('fade-out');
+                    lightboxCaption.classList.remove('fade-out');
+                    lightboxImage.classList.add('fade-in');
+                    lightboxCaption.classList.add('fade-in');
+                    
+                    // Remove fade-in class after animation completes
+                    setTimeout(() => {
+                        lightboxImage.classList.remove('fade-in');
+                        lightboxCaption.classList.remove('fade-in');
+                    }, 300);
+                }, 300);
+            }
+
+            // Navigate to previous image
+            function navigateToPreviousImage() {
+                // If slideshow is running, pause it first
+                if (slideshowInterval) {
+                    pauseSlideshow();
+                }
+                
+                currentImageIndex = (currentImageIndex - 1 + imageItems.length) % imageItems.length;
+                updateLightboxImage();
+            }
+
+            // Navigate to next image
+            function navigateToNextImage() {
+                // If slideshow is running, pause it first
+                if (slideshowInterval) {
+                    pauseSlideshow();
+                }
+                
+                currentImageIndex = (currentImageIndex + 1) % imageItems.length;
+                updateLightboxImage();
+            }
+
+            // Start slideshow
+            function startSlideshow() {
+                if (slideshowInterval) return;
+                
+                // Clear any existing interval first
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                }
+                
+                slideshowInterval = setInterval(navigateToNextImage, slideshowSpeed);
+                lightboxToggle.innerHTML = '<i class="fa fa-pause-circle"></i> Pause Diaporama';
+                lightboxToggle.classList.add('active');
+            }
+
+            // Pause slideshow
+            function pauseSlideshow() {
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                    slideshowInterval = null;
+                }
+                lightboxToggle.innerHTML = '<i class="fa fa-play-circle"></i> Lancer le diaporama';
+                lightboxToggle.classList.remove('active');
+            }
+
+            // Close lightbox
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                pauseSlideshow();
+                
+                // Remove body key listener
+                removeBodyKeyListener();
+            }
+
+            // Direct keyboard event handling for full screen mode
+            function handleKeyPress(e) {
+                if (lightbox.classList.contains('active')) {
+                    console.log('Key pressed:', e.key);
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                    } else if (e.key === 'ArrowLeft') {
+                        navigateToPreviousImage();
+                    } else if (e.key === 'ArrowRight') {
+                        navigateToNextImage();
+                    } else if (e.key === 'p' || e.key === 'P') {
+                        if (slideshowInterval) {
+                            pauseSlideshow();
+                        } else {
+                            startSlideshow();
+                        }
+                    }
+                }
+            }
+            
+            // Add direct event listeners to the window object
+            window.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the lightbox itself
+            lightbox.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the document
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the image itself
+            lightboxImage.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the caption
+            lightboxCaption.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the controls
+            lightboxToggle.addEventListener('keydown', handleKeyPress);
+            
+            // Add event listeners to the navigation buttons
+            lightboxPrev.addEventListener('keydown', handleKeyPress);
+            lightboxNext.addEventListener('keydown', handleKeyPress);
+            
+            // Debug information
+            console.log('Lightbox initialized');
+            console.log('Image items count:', imageItems.length);
+            console.log('Toggle button:', lightboxToggle);
+            
+            // Test keyboard navigation
+            console.log('Keyboard navigation enabled');
+            
+            // Add a direct keyboard event listener to the body when lightbox is active
+            function addBodyKeyListener() {
+                document.body.addEventListener('keydown', handleKeyPress);
+            }
+            
+            function removeBodyKeyListener() {
+                document.body.removeEventListener('keydown', handleKeyPress);
+            }
+        });
+    </script>
+</body>
+</html>
