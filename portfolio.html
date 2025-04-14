@@ -18,6 +18,68 @@
             background-color: #f9f9f9;
         }
 
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .preload-content {
+            text-align: center;
+        }
+        
+        #sonar-load {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        #sonar-load:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #333;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Loading Bar Styles */
+        .loading-bar-container {
+            width: 200px;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #333;
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+
         /* Scrollbar Styling */
         :root {
             --scrollbar-thumb-height: 20%;
@@ -628,6 +690,9 @@
 <div id="preloader">
 <div class="preload-content">
 <div id="sonar-load"></div>
+<div class="loading-bar-container">
+    <div class="loading-bar"></div>
+</div>
 </div>
 </div>
 
@@ -1318,6 +1383,28 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Portfolio page loaded - English version');
+            
+            // Loading bar animation
+            const loadingBar = document.querySelector('.loading-bar');
+            const preloader = document.getElementById('preloader');
+            let progress = 0;
+            
+            // Simulate loading progress - faster animation
+            const loadingInterval = setInterval(() => {
+                // Increase progress more quickly
+                progress += Math.random() * 25;
+                if (progress > 100) progress = 100;
+                loadingBar.style.width = progress + '%';
+                
+                if (progress === 100) {
+                    clearInterval(loadingInterval);
+                    // Hide preloader immediately when loading is complete
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 300); // Reduced fade-out time
+                }
+            }, 100); // Reduced interval time
             
             // Get category from URL parameters
             const urlParams = new URLSearchParams(window.location.search);
