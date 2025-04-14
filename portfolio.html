@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="UTF-8">
+<meta name="description" content>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Portfolio - Salem Loumissi Photography</title>
-    <link rel="icon" href="img/core-img/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">
+<link rel="icon" href="img/core-img/favicon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="style.css">
     <style>
         /* Base Styles */
         body {
@@ -16,6 +16,37 @@
             color: #333;
             line-height: 1.6;
             background-color: #f9f9f9;
+        }
+
+        /* Scrollbar Styling */
+        :root {
+            --scrollbar-thumb-height: 20%;
+            --scrollbar-thumb-width: 10px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: var(--scrollbar-thumb-width);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+            min-height: var(--scrollbar-thumb-height);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* For Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
         }
 
         /* Header Styles */
@@ -229,6 +260,7 @@
             will-change: transform, opacity;
             transform: translateZ(0);
             backface-visibility: hidden;
+            contain: content;
         }
 
         @keyframes fadeInUp {
@@ -258,6 +290,8 @@
             will-change: transform;
             transform: translateZ(0);
             backface-visibility: hidden;
+            content-visibility: auto;
+            contain: content;
         }
 
         /* Add styles for vertical images */
@@ -554,92 +588,126 @@
             transform: translateZ(0);
             backface-visibility: hidden;
         }
+        
+        /* Performance optimizations */
+        .portfolio-item {
+            contain: layout style paint;
+        }
+        
+        /* Lazy loading for images */
+        .portfolio-item img {
+            loading: lazy;
+        }
+        
+        /* Reduce paint operations */
+        .portfolio-item, .portfolio-item-content, .lightbox {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+        
+        /* Optimize for mobile */
+        @media (max-width: 480px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .portfolio-item img {
+                height: 300px;
+            }
+            
+            .portfolio-item.portrait img,
+            .portfolio-item.art img,
+            .portfolio-item.landscape img {
+                height: 400px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="preloader">
-        <div class="preload-content">
-            <div id="sonar-load"></div>
-        </div>
-    </div>
+<div id="preloader">
+<div class="preload-content">
+<div id="sonar-load"></div>
+</div>
+</div>
 
-    <div class="grids d-flex justify-content-between">
-        <div class="grid1"></div>
-        <div class="grid2"></div>
-        <div class="grid3"></div>
-        <div class="grid4"></div>
-        <div class="grid5"></div>
-        <div class="grid6"></div>
-        <div class="grid7"></div>
-        <div class="grid8"></div>
-        <div class="grid9"></div>
-    </div>
+<div class="grids d-flex justify-content-between">
+<div class="grid1"></div>
+<div class="grid2"></div>
+<div class="grid3"></div>
+<div class="grid4"></div>
+<div class="grid5"></div>
+<div class="grid6"></div>
+<div class="grid7"></div>
+<div class="grid8"></div>
+<div class="grid9"></div>
+</div>
 
-    <div class="mainMenu d-flex align-items-center justify-content-between">
-        <div class="closeIcon">
-            <div class="closer-container">
-                <div class="leftrightr"></div>
-                <div class="rightleftr"></div>
-                <label class="closer">X</label>
-            </div>
-        </div>
+<div class="mainMenu d-flex align-items-center justify-content-between">
+<div class="closeIcon">
+<div class="closer-container">
+  <div class="leftrightr"></div>
+  <div class="rightleftr"></div>
+  <label class="closer">X</label>
+</div>
+</div>
 
-        <div class="logo-area">
-            <a href="index.html">Salem Loumissi</a>
-        </div>
+<div class="logo-area">
+<a href="index.html">Salem Loumissi</a>
+</div>
 
         <div class="sonarNav wow fadeInUp" data-wow-delay="1s">
-            <nav>
-                <ul>
+<nav>
+<ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about-me.html">About Me</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.html">Services</a>
-                    </li>
+<a class="nav-link" href="index.html">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="about-me.html">About Me</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="services.html">Services</a>
+</li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="portfolio.html">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+<a class="nav-link" href="portfolio.html">Portfolio</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="contact.html">Contact</a>
+</li>
+</ul>
+</nav>
+</div>
 
-        <div class="copywrite-text">
-            <p>
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This website was made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Salem Loumissi
-            </p>
-        </div>
-    </div>
+<div class="copywrite-text">
+<p>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This website was made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Salem Loumissi 
+</p>
+</div>
+</div>
 
     <header class="header-area sticky">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="menu-area d-flex justify-content-between">
-                        <div class="logo-area">
+<div class="container-fluid">
+<div class="row">
+<div class="col-12">
+<div class="menu-area d-flex justify-content-between">
+<div class="logo-area">
                             <a href="index.html"><img class="logo_img" src="img/core-img/logoico.png"></a><a href="index.html">Salem Loumissi</a>
-                        </div>
-                        <div class="menu-content-area d-flex align-items-center">
-                            <div class="header-social-area d-flex align-items-center">
+</div>
+<div class="menu-content-area d-flex align-items-center">
+<div class="header-social-area d-flex align-items-center">
                                 <a target="_blank" href="https://www.youtube.com/channel/UCha_iTucrXwr3auf28pBbPw" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube" aria-hidden="true"></i></a>
                                 <a target="_blank" href="https://www.pinterest.ca/lloumsa1/" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
                                 <a target="_blank" href="https://fr.linkedin.com/in/salem-loumissi-1a3857186" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                                 <a target="_blank" href="https://www.instagram.com/salemloumissi/" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                                 <a href="portfoliofr.html" class="large-div" data-toggle="tooltip" data-placement="bottom" title="Francais"><img class="flag" src="img/core-img/fr.png" aria-hidden="true"></img></a>
-                            </div>
-                            <span class="navbar-toggler-icon" id="menuIcon"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+</div>
+<span class="navbar-toggler-icon" id="menuIcon"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
@@ -649,11 +717,11 @@
         <div class="lightbox-content">
             <img src="" alt="" class="lightbox-image" id="lightbox-image">
             <div class="lightbox-caption" id="lightbox-caption"></div>
-        </div>
+</div>
         <div class="lightbox-controls">
             <button class="lightbox-control" id="lightbox-toggle"><i class="fa fa-play-circle"></i> Play Slideshow</button>
-        </div>
-    </div>
+</div>
+</div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -661,7 +729,7 @@
             <h1>My Portfolio</h1>
             <p>A curated collection of my photographic works, showcasing moments, emotions, and stories captured through my lens.</p>
             <a href="contact.html" class="btn">Contact Me</a>
-        </div>
+</div>
     </section>
 
     <!-- Portfolio Section -->
@@ -670,7 +738,7 @@
             <div class="portfolio-header">
                 <h2>Featured Works</h2>
                 <p>Explore my diverse portfolio of photography and videography projects.</p>
-            </div>
+</div>
 
             <div class="portfolio-filter">
                 <button class="filter-btn active" data-filter="all">All</button>
@@ -680,7 +748,7 @@
                 <button class="filter-btn" data-filter="portrait">Portrait</button>
                 <button class="filter-btn" data-filter="studio">Studio</button>
                 <button class="filter-btn" data-filter="video">Video</button>
-            </div>
+</div>
 
             <div class="portfolio-grid">
                 <!-- Art Items -->
@@ -689,32 +757,32 @@
                     <div class="portfolio-item-content">
                         <h3>The true value in times of hunger</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item art">
                     <img src="img/portfolio-img/art/Photo1920_78.jpg" alt="Cosmic Contrasts" loading="lazy">
                     <div class="portfolio-item-content">
                         <h3>Cosmic Contrasts</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item art">
                     <img src="img/portfolio-img/art/Photo1920_015546.jpg" alt="Light Brilliance">
                     <div class="portfolio-item-content">
                         <h3>Light Brilliance</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item art">
                     <img src="img/portfolio-img/art/Photo1920_020735.jpg" alt="Red Focus">
                     <div class="portfolio-item-content">
                         <h3>Red Focus</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <!-- Culinary Items -->
                 <div class="portfolio-item culinary">
@@ -722,24 +790,24 @@
                     <div class="portfolio-item-content">
                         <h3>Ad for Becel</h3>
                         <p>Culinary</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item culinary">
                     <img src="img/portfolio-img/culinary/Photo1920_1382.jpg" alt="Birthday Party">
                     <div class="portfolio-item-content">
                         <h3>Birthday Party</h3>
-                        <p>Culinary</p>
-                    </div>
-                </div>
+<p>Culinary</p>
+</div>
+</div>
 
                 <div class="portfolio-item culinary">
                     <img src="img/portfolio-img/culinary/Photo1920_58.jpg" alt="Winning Combo">
                     <div class="portfolio-item-content">
                         <h3>Winning Combo</h3>
-                        <p>Culinary</p>
-                    </div>
-                </div>
+<p>Culinary</p>
+</div>
+</div>
 
                 <!-- Landscape Items -->
                 <div class="portfolio-item landscape">
@@ -755,329 +823,329 @@
                     <div class="portfolio-item-content">
                         <h3>Immobile Grace</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_009830.jpg" alt="Contemplation by the Water">
                     <div class="portfolio-item-content">
                         <h3>Contemplation by the Water</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_00418172.jpg" alt="Cloudy Daydreams on Calm Waves">
                     <div class="portfolio-item-content">
                         <h3>Cloudy Daydreams on Calm Waves</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_020234.jpg" alt="Colorful Exploration">
                     <div class="portfolio-item-content">
                         <h3>Colorful Exploration</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_702144.jpg" alt="Sylvan Distortions">
                     <div class="portfolio-item-content">
                         <h3>Sylvan Distortions</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_1510490968.jpg" alt="Warm Connection">
                     <div class="portfolio-item-content">
                         <h3>Warm Connection</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_1510500669.jpg" alt="Life in the Wood">
                     <div class="portfolio-item-content">
                         <h3>Life in the Wood</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_658939.jpg" alt="Duck Tales">
                     <div class="portfolio-item-content">
                         <h3>Duck Tales</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_662941.jpg" alt="Urban Feline">
                     <div class="portfolio-item-content">
                         <h3>Urban Feline</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item landscape">
                     <img src="img/portfolio-img/landscape/Photo1920_700243.jpg" alt="Animalistic Gaze on the Ground">
                     <div class="portfolio-item-content">
                         <h3>Animalistic Gaze on the Ground</h3>
                         <p>Landscape</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <!-- Portrait Items -->
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Photo1920_0127452.jpg" alt="Out of Phase">
                     <div class="portfolio-item-content">
                         <h3>Out of Phase</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
+<p>Portrait</p>
+</div>
+</div>
 
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Photo1920_550056.jpg" alt="Out of focus">
                     <div class="portfolio-item-content">
                         <h3>Out of focus</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
+<p>Portrait</p>
+</div>
+</div>
 
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Photo1920_20140216842.jpg" alt="A radiant smile">
                     <div class="portfolio-item-content">
                         <h3>A radiant smile</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
+<p>Portrait</p>
+</div>
+</div>
 
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Photo1920_2013580782.jpg" alt="High-See">
                     <div class="portfolio-item-content">
                         <h3>High-See</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
+<p>Portrait</p>
+</div>
+</div>
 
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Photo1920_36.jpg" alt="Sunny Daydreams">
                     <div class="portfolio-item-content">
                         <h3>Sunny Daydreams</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_2.jpg" alt="Just the Two of Us">
                     <div class="portfolio-item-content">
                         <h3>Just the Two of Us</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_3.jpg" alt="A Moment of Forever">
                     <div class="portfolio-item-content">
                         <h3>A Moment of Forever</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_4.jpg" alt="The Yes Kiss">
                     <div class="portfolio-item-content">
                         <h3>The Yes Kiss</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_5.jpg" alt="Child's Play, Father's Love">
                     <div class="portfolio-item-content">
                         <h3>Child's Play, Father's Love</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_6.jpg" alt="Modern & Professional">
                     <div class="portfolio-item-content">
                         <h3>Modern & Professional</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_7.jpg" alt="Corporate in the Wild">
                     <div class="portfolio-item-content">
                         <h3>Corporate in the Wild</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_8.jpg" alt="Where the Gaze Wanders">
                     <div class="portfolio-item-content">
                         <h3>Where the Gaze Wanders</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_9.jpg" alt="Between Thought and Pause">
                     <div class="portfolio-item-content">
                         <h3>Between Thought and Pause</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_10.jpg" alt="A Smile at the Summit">
                     <div class="portfolio-item-content">
                         <h3>A Smile at the Summit</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_11.jpg" alt="Relaxed Confidence">
                     <div class="portfolio-item-content">
                         <h3>Relaxed Confidence</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_20.jpg" alt="Ready for the Shot">
                     <div class="portfolio-item-content">
                         <h3>Ready for the Shot</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_22.jpg" alt="Silent Tenderness">
                     <div class="portfolio-item-content">
                         <h3>Silent Tenderness</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_23.jpg" alt="Wrapped in Love">
                     <div class="portfolio-item-content">
                         <h3>Wrapped in Love</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_30.jpg" alt="MAD Montreal Fashion Show 2024">
                     <div class="portfolio-item-content">
                         <h3>MAD Montreal Fashion Show 2024</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_31.jpg" alt="MAD Montreal Fashion Show 2024">
                     <div class="portfolio-item-content">
                         <h3>MAD Montreal Fashion Show 2024</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_32.jpg" alt="MAD Montreal Fashion Show 2024">
                     <div class="portfolio-item-content">
                         <h3>MAD Montreal Fashion Show 2024</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_33.jpg" alt="MAD Montreal Fashion Show 2024">
                     <div class="portfolio-item-content">
                         <h3>MAD Montreal Fashion Show 2024</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_34.jpg" alt="Suspense and Speed">
                     <div class="portfolio-item-content">
                         <h3>Suspense and Speed</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_35.jpg" alt="Extreme Balance">
                     <div class="portfolio-item-content">
                         <h3>Extreme Balance</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_36.jpg" alt="Action and Focus">
                     <div class="portfolio-item-content">
                         <h3>Action and Focus</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_37.jpg" alt="Happy Bride n Groom">
                     <div class="portfolio-item-content">
                         <h3>Happy Bride n Groom</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_38.jpg" alt="Brilliance in Motion">
                     <div class="portfolio-item-content">
                         <h3>Brilliance in Motion</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_40.jpg" alt="Last Glows">
                     <div class="portfolio-item-content">
                         <h3>Last Glows</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_41.jpg" alt="Amber Look">
                     <div class="portfolio-item-content">
                         <h3>Amber Look</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_42.jpg" alt="Quiet Hues">
                     <div class="portfolio-item-content">
                         <h3>Quiet Hues</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
-
+<p>Portrait</p>
+</div>
+</div>
+  
                 <div class="portfolio-item portrait">
                     <img src="img/portfolio-img/portrait/Projet_WEB_43.jpg" alt="Black Against Ochre">
                     <div class="portfolio-item-content">
                         <h3>Black Against Ochre</h3>
-                        <p>Portrait</p>
-                    </div>
-                </div>
+<p>Portrait</p>
+</div>
+</div>
 
                 <!-- Studio Items -->
                 <div class="portfolio-item studio">
@@ -1093,9 +1161,9 @@
                     <div class="portfolio-item-content">
                         <h3>Advertisement for Salvo Intense in smoke</h3>
                         <p>Studio</p>
-                    </div>
-                </div>
-
+</div>
+</div>
+  
                 <div class="portfolio-item studio">
                     <img src="img/portfolio-img/studio/Photo1920_135.jpg" alt="Milkblast">
                     <div class="portfolio-item-content">
@@ -1109,9 +1177,9 @@
                     <div class="portfolio-item-content">
                         <h3>Advertisement for L'Oréal</h3>
                         <p>Studio</p>
-                    </div>
-                </div>
-
+</div>
+</div>
+  
                 <div class="portfolio-item studio">
                     <img src="img/portfolio-img/studio/Photo1920_0113240495.jpg" alt="The Prince Charming">
                     <div class="portfolio-item-content">
@@ -1125,9 +1193,9 @@
                     <div class="portfolio-item-content">
                         <h3>My best friend the α7 IV</h3>
                         <p>Studio</p>
-                    </div>
-                </div>
-
+</div>
+</div>
+  
                 <div class="portfolio-item studio">
                     <img src="img/portfolio-img/studio/Photo1920_134.jpg" alt="Tea-Plosion">
                     <div class="portfolio-item-content">
@@ -1141,9 +1209,9 @@
                     <div class="portfolio-item-content">
                         <h3>Advertisement for Hertel</h3>
                         <p>Studio</p>
-                    </div>
-                </div>
-
+</div>
+</div>
+  
                 <div class="portfolio-item studio">
                     <img src="img/portfolio-img/studio/Photo1920_2815383589.jpg" alt="Hydroflask">
                     <div class="portfolio-item-content">
@@ -1158,8 +1226,8 @@
                     <div class="portfolio-item-content">
                         <h3>Aquatic Dance</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item art">
                     <img src="img/portfolio-img/art/Photo1920_996142.jpg" alt="Half Empty, Fully Scorching">
@@ -1174,9 +1242,9 @@
                     <div class="portfolio-item-content">
                         <h3>Chromatic Spiral</h3>
                         <p>Artistic Project</p>
-                    </div>
-                </div>
-
+</div>
+</div>
+  
                 <div class="portfolio-item art">
                     <img src="img/portfolio-img/art/Photo1920_170844345967385.jpg" alt="Mosaic of Greenery">
                     <div class="portfolio-item-content">
@@ -1190,25 +1258,25 @@
                     <img src="img/portfolio-img/culinary/Saveur2S.jpg" alt="Advertisement for Saveur2S">
                     <div class="portfolio-item-content">
                         <h3>Advertisement for Saveur2S</h3>
-                        <p>Culinary</p>
-                    </div>
-                </div>
-
+<p>Culinary</p>
+</div>
+</div>
+  
                 <div class="portfolio-item culinary">
                     <img src="img/portfolio-img/culinary/Photo1920_122.jpg" alt="Moroccan Tea Party">
                     <div class="portfolio-item-content">
                         <h3>Moroccan Tea Party</h3>
                         <p>Culinary</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item culinary">
                     <img src="img/portfolio-img/studio/Photo1920_2815183988.jpg" alt="White Sweetness">
                     <div class="portfolio-item-content">
                         <h3>White Sweetness</h3>
                         <p>Culinary</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <!-- Video Items -->
                 <div class="portfolio-item video">
@@ -1218,19 +1286,19 @@
                     <div class="portfolio-item-content">
                         <h3>Cookies🍪😋</h3>
                         <p>Video</p>
-                    </div>
-                </div>
+</div>
+</div>
 
                 <div class="portfolio-item video">
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/bNh_l0ElWlw" title="Thirsty Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+</div>
                     <div class="portfolio-item-content">
                         <h3>Thirsty? 🍋☀️</h3>
                         <p>Video</p>
-                    </div>
-                </div>
-            </div>
+</div>
+</div>
+</div>
         </div>
     </section>
 
@@ -1238,7 +1306,7 @@
     <footer class="footer">
         <div class="container">
             <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This website was made with <i class="fa fa-heart"></i> by Salem Loumissi</p>
-        </div>
+</div>
     </footer>
 
     <!-- Scripts -->
@@ -1249,13 +1317,18 @@
     <script src="js/active.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Portfolio page loaded - English version');
+            
             // Get category from URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
+            console.log('Category from URL:', category);
             
             // Portfolio filtering
             const filterButtons = document.querySelectorAll('.filter-btn');
             const portfolioItems = document.querySelectorAll('.portfolio-item');
+            console.log('Filter buttons:', filterButtons.length);
+            console.log('Portfolio items:', portfolioItems.length);
             
             // Add staggered animation delays to portfolio items
             portfolioItems.forEach((item, index) => {
@@ -1270,6 +1343,8 @@
 
             // Function to filter portfolio items
             function filterPortfolioItems(filter) {
+                console.log('Filtering portfolio items by:', filter);
+                
                 // Remove active class from all buttons
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 
@@ -1277,6 +1352,9 @@
                 const activeButton = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
                 if (activeButton) {
                     activeButton.classList.add('active');
+                    console.log('Activated button:', filter);
+                } else {
+                    console.log('Button not found for filter:', filter);
                 }
                 
                 // Hide all items first without changing their position in the document flow
@@ -1304,12 +1382,93 @@
                             visibleCount++;
                         }
                     });
+                    
+                    // Adjust scroll bar based on visible content
+                    adjustScrollBar(filter);
                 }, 100);
             }
 
+            // Function to adjust scroll bar based on visible content
+            function adjustScrollBar(filter) {
+                // Count visible items
+                const visibleItems = Array.from(portfolioItems).filter(item => 
+                    filter === 'all' || item.classList.contains(filter)
+                );
+                
+                // Calculate total height of visible content
+                const portfolioGrid = document.querySelector('.portfolio-grid');
+                const gridRect = portfolioGrid.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                
+                // Calculate how much of the page is filled with content
+                const contentHeight = visibleItems.length * 400; // Approximate height per item
+                const pageFillPercentage = Math.min(100, (contentHeight / viewportHeight) * 100);
+                
+                // Force a reflow to ensure the DOM updates
+                document.body.offsetHeight;
+                
+                // Apply custom scrollbar styling based on content length
+                if (pageFillPercentage < 50) {
+                    // For pages with little content (like video category)
+                    document.documentElement.style.setProperty('--scrollbar-thumb-height', '30%');
+                    document.documentElement.style.setProperty('--scrollbar-thumb-width', '12px');
+                } else if (pageFillPercentage < 100) {
+                    // For pages with moderate content
+                    document.documentElement.style.setProperty('--scrollbar-thumb-height', '20%');
+                    document.documentElement.style.setProperty('--scrollbar-thumb-width', '10px');
+                } else {
+                    // For pages with lots of content (like portrait category)
+                    document.documentElement.style.setProperty('--scrollbar-thumb-height', '10%');
+                    document.documentElement.style.setProperty('--scrollbar-thumb-width', '8px');
+                }
+                
+                // Ensure scrolling is enabled
+                document.documentElement.style.overflow = '';
+                
+                // Force browser to recalculate scrollbar
+                window.dispatchEvent(new Event('resize'));
+            }
+
+            // Add mouse wheel scrolling support
+            function setupMouseWheelScrolling() {
+                // Get the portfolio section
+                const portfolioSection = document.querySelector('.portfolio');
+                
+                // Add wheel event listener to the portfolio section
+                portfolioSection.addEventListener('wheel', function(e) {
+                    // Only handle wheel events if lightbox is not active
+                    if (!lightbox.classList.contains('active')) {
+                        // Allow default scrolling behavior
+                        return true;
+                    }
+                }, { passive: true });
+                
+                // Add wheel event listener to the document for global scrolling
+                document.addEventListener('wheel', function(e) {
+                    // Only handle wheel events if lightbox is not active
+                    if (!lightbox.classList.contains('active')) {
+                        // Allow default scrolling behavior
+                        return true;
+                    }
+                }, { passive: true });
+            }
+            
+            // Call the setup function
+            setupMouseWheelScrolling();
+
             // Apply initial filter if category is in URL
             if (category) {
-                filterPortfolioItems(category);
+                console.log('Applying initial filter from URL:', category);
+                // Add a small delay to ensure the DOM is fully loaded
+                setTimeout(() => {
+                    filterPortfolioItems(category);
+                }, 100);
+            } else {
+                console.log('No category in URL, showing all items');
+                // Add a small delay to ensure the DOM is fully loaded
+                setTimeout(() => {
+                    filterPortfolioItems('all');
+                }, 100);
             }
 
             // Add click event listeners to filter buttons
@@ -1328,6 +1487,12 @@
                     
                     // Filter the portfolio items
                     filterPortfolioItems(filter);
+                    
+                    // Ensure scroll is enabled after filtering
+                    setTimeout(() => {
+                        document.documentElement.style.overflow = '';
+                        adjustScrollBar(filter);
+                    }, 300);
                 });
             });
 
@@ -1389,7 +1554,7 @@
                     lightbox.classList.add('active');
                     
                     // Prevent scrolling when lightbox is open
-                    document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overflow = 'hidden';
                     
                     // Reset slideshow state
                     if (slideshowInterval) {
@@ -1512,16 +1677,23 @@
             // Close lightbox
             function closeLightbox() {
                 lightbox.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                document.documentElement.style.overflow = '';
                 pauseSlideshow();
                 
                 // Remove body key listener
                 removeBodyKeyListener();
+                
+                // Re-adjust scroll bar after closing lightbox
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                setTimeout(() => {
+                    adjustScrollBar(activeFilter);
+                }, 100);
             }
 
             // Direct keyboard event handling for full screen mode
             function handleKeyPress(e) {
                 if (lightbox.classList.contains('active')) {
+                    console.log('Key pressed:', e.key);
                     if (e.key === 'Escape') {
                         closeLightbox();
                     } else if (e.key === 'ArrowLeft') {
@@ -1560,6 +1732,14 @@
             lightboxPrev.addEventListener('keydown', handleKeyPress);
             lightboxNext.addEventListener('keydown', handleKeyPress);
             
+            // Debug information
+            console.log('Lightbox initialized');
+            console.log('Image items count:', imageItems.length);
+            console.log('Toggle button:', lightboxToggle);
+            
+            // Test keyboard navigation
+            console.log('Keyboard navigation enabled');
+            
             // Add a direct keyboard event listener to the body when lightbox is active
             function addBodyKeyListener() {
                 document.body.addEventListener('keydown', handleKeyPress);
@@ -1567,6 +1747,155 @@
             
             function removeBodyKeyListener() {
                 document.body.removeEventListener('keydown', handleKeyPress);
+            }
+            
+            // Ensure scroll is restored when navigating away from the page
+            window.addEventListener('beforeunload', function() {
+                // Restore scroll when leaving the page
+                document.documentElement.style.overflow = '';
+                
+                // Clear any intervals
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                }
+                
+                // Clear any timeouts
+                if (controlsTimeout) {
+                    clearTimeout(controlsTimeout);
+                }
+            });
+            
+            // Also handle when user navigates to another page within the site
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden') {
+                    // Page is being hidden (user is navigating away)
+                    document.documentElement.style.overflow = '';
+                    
+                    // Clear any intervals
+                    if (slideshowInterval) {
+                        clearInterval(slideshowInterval);
+                    }
+                    
+                    // Clear any timeouts
+                    if (controlsTimeout) {
+                        clearTimeout(controlsTimeout);
+                    }
+                }
+            });
+
+            // Add middle mouse button (wheel click) scrolling
+            let isAutoScrolling = false;
+            let autoScrollSpeed = 0;
+            let autoScrollIndicator = null;
+            let autoScrollAnimationFrame = null;
+            const maxAutoSpeed = 15; // Reduced maximum scroll speed for smoother scrolling
+            
+            document.addEventListener('mousedown', function(e) {
+                // Check if middle mouse button is clicked (button 1)
+                if (e.button === 1) {
+                    // Prevent default behavior
+                    e.preventDefault();
+                    
+                    // Toggle auto-scroll state
+                    if (isAutoScrolling) {
+                        // If already scrolling, stop it
+                        stopAutoScroll();
+                    } else {
+                        // Start auto-scroll
+                        startAutoScroll(e.clientX, e.clientY);
+                    }
+                } else if (isAutoScrolling) {
+                    // If any other mouse button is clicked while auto-scrolling is active, stop it
+                    stopAutoScroll();
+                }
+            });
+            
+            // Function to start auto-scroll
+            function startAutoScroll(startX, startY) {
+                // Create a visual indicator for auto-scroll
+                autoScrollIndicator = document.createElement('div');
+                autoScrollIndicator.style.position = 'fixed';
+                autoScrollIndicator.style.width = '20px';
+                autoScrollIndicator.style.height = '20px';
+                autoScrollIndicator.style.borderRadius = '50%';
+                autoScrollIndicator.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                autoScrollIndicator.style.pointerEvents = 'none';
+                autoScrollIndicator.style.zIndex = '9999';
+                autoScrollIndicator.style.left = (startX - 10) + 'px';
+                autoScrollIndicator.style.top = (startY - 10) + 'px';
+                document.body.appendChild(autoScrollIndicator);
+                
+                // Store the initial click position
+                window.autoScrollStartX = startX;
+                window.autoScrollStartY = startY;
+                
+                // Set initial scroll speed
+                autoScrollSpeed = 0; // Start with no movement
+                isAutoScrolling = true;
+                
+                // Start the auto-scroll animation using requestAnimationFrame for smoother animation
+                autoScrollAnimationFrame = requestAnimationFrame(autoScrollAnimation);
+                
+                // Add mouse move event to adjust speed
+                document.addEventListener('mousemove', handleAutoScrollMouseMove);
+            }
+            
+            // Function to handle the auto-scroll animation
+            function autoScrollAnimation() {
+                if (!isAutoScrolling) return;
+                
+                // Apply smooth scrolling with easing
+                window.scrollBy(0, autoScrollSpeed);
+                
+                // Continue the animation
+                autoScrollAnimationFrame = requestAnimationFrame(autoScrollAnimation);
+            }
+            
+            // Function to handle mouse movement during auto-scroll
+            function handleAutoScrollMouseMove(e) {
+                if (!isAutoScrolling) return;
+                
+                // Update indicator position
+                autoScrollIndicator.style.left = (e.clientX - 10) + 'px';
+                autoScrollIndicator.style.top = (e.clientY - 10) + 'px';
+                
+                // Calculate distance from initial click point
+                const deltaY = e.clientY - window.autoScrollStartY;
+                
+                // Calculate speed based on distance from initial click
+                // The further from the initial click, the faster the scrolling
+                // Use a non-linear scale for more intuitive control
+                const distanceFactor = Math.abs(deltaY) / 100; // Normalize distance
+                const speedMultiplier = Math.min(Math.pow(distanceFactor, 1.5), 3); // Cap the multiplier
+                
+                // Set direction based on whether mouse is above or below initial click
+                const direction = deltaY > 0 ? 1 : -1;
+                
+                // Calculate target speed with non-linear scaling
+                const targetSpeed = direction * speedMultiplier * 5;
+                
+                // Smoothly transition to the target speed
+                autoScrollSpeed += (targetSpeed - autoScrollSpeed) * 0.15;
+            }
+            
+            // Function to stop auto-scroll
+            function stopAutoScroll() {
+                isAutoScrolling = false;
+                
+                // Cancel the animation frame
+                if (autoScrollAnimationFrame) {
+                    cancelAnimationFrame(autoScrollAnimationFrame);
+                    autoScrollAnimationFrame = null;
+                }
+                
+                // Remove the indicator
+                if (autoScrollIndicator) {
+                    document.body.removeChild(autoScrollIndicator);
+                    autoScrollIndicator = null;
+                }
+                
+                // Remove the mouse move event listener
+                document.removeEventListener('mousemove', handleAutoScrollMouseMove);
             }
         });
     </script>
