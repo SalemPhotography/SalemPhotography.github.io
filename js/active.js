@@ -10,8 +10,6 @@
         });
     });
 
-
-
     // :: Fullscreen Active Code
     $window.on('resizeEnd', function () {
         $(".full_height").height($window.height());
