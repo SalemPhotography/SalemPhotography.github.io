@@ -12,6 +12,205 @@
 <link rel="icon" href="img/core-img/favicon.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    /* Form Status Styles */
+    #form-status {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 4px;
+        display: none;
+    }
+    
+    #form-status.success {
+        display: block;
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    #form-status.error {
+        display: block;
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    #form-status.loading {
+        display: block;
+        background-color: #e2e3e5;
+        color: #383d41;
+        border: 1px solid #d6d8db;
+    }
+    
+    /* Disable form while submitting */
+    .contact-form.submitting {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    
+    /* Button loading state */
+    #submit-btn.loading {
+        position: relative;
+        color: transparent;
+    }
+    
+    #submit-btn.loading::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 50%;
+        left: 50%;
+        margin-top: -8px;
+        margin-left: -8px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        border-right-color: transparent;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Map styles */
+    .map-error {
+        padding: 20px;
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    .map-instructions {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #e2e3e5;
+        border-radius: 4px;
+        text-align: center;
+    }
+    
+    .map-instructions p {
+        margin: 0;
+        color: #383d41;
+    }
+    
+    .map-instructions p.note {
+        font-size: 0.9em;
+        font-style: italic;
+        margin-top: 8px;
+        color: #6c757d;
+    }
+    
+    /* Additional Map Styling */
+    .map-area {
+        margin: 30px auto;
+        max-width: 90%;
+        padding: 0 20px;
+    }
+    
+    /* Coordinates display styling */
+    .coordinates-display {
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        font-family: monospace;
+        font-size: 16px;
+        color: #495057;
+    }
+    
+    #map {
+        height: 400px !important;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+    
+    .leaflet-control-zoom {
+        border: none !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .leaflet-control-zoom a {
+        background-color: #fff !important;
+        color: #333 !important;
+        transition: all 0.3s ease;
+    }
+    
+    .leaflet-control-zoom a:hover {
+        background-color: #f0f0f0 !important;
+    }
+    
+    .leaflet-marker-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .leaflet-marker-icon:hover {
+        transform: scale(1.2);
+    }
+
+    /* Search control styling */
+    .leaflet-control-geosearch {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .leaflet-control-geosearch form {
+        background: white;
+        padding: 4px;
+        border-radius: 4px;
+    }
+    
+    .leaflet-control-geosearch input {
+        width: 250px !important;
+        padding: 8px 12px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        font-size: 14px !important;
+    }
+    
+    .leaflet-control-geosearch button {
+        background: #007bff !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 8px 12px !important;
+    }
+    
+    .leaflet-control-geosearch button:hover {
+        background: #0069d9 !important;
+    }
+    
+    /* Map prompt styling */
+    .map-prompt {
+        background-color: #e2e3e5;
+        color: #383d41;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 500;
+    }
+    
+    .map-prompt p {
+        margin: 0;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    (function() {
+        // Initialize EmailJS with your public key
+        emailjs.init("TnxEBfGU_o6mVVjLC");
+    })();
+</script>
 </head>
 <body>
 
@@ -136,7 +335,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </div>
 </div>
 </div>
-<!-- 
+</div>
+</div>
+
 <section class="sonar-contact-area section-padding-100">
 
 <div class="backEnd-content">
@@ -148,33 +349,42 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <div class="col-12">
 <div class="contact-form text-center">
 <h2>I am an experienced photographer</h2>
-<h4>Let’s talk</h4>
-<form action="#" method="post">
+<h4>Let's talk</h4>
+<form id="contact-form" class="contact-form">
+<div id="form-status"></div>
 <div class="row">
 <div class="col-12 col-md-4">
 <div class="form-group">
-<input type="text" class="form-control" id="contact-name" placeholder="Your Name">
+<input type="text" class="form-control" id="contact-name" name="name" placeholder="Your Name" required>
 </div>
 </div>
 <div class="col-12 col-md-4">
 <div class="form-group">
-<input type="email" class="form-control" id="contact-email" placeholder="Your Email">
+<input type="email" class="form-control" id="contact-email" name="email" placeholder="Your Email" required>
 </div>
 </div>
 <div class="col-12 col-md-4">
 <div class="form-group">
-<input type="text" class="form-control" id="contact-email" placeholder="Subject">
+<input type="text" class="form-control" id="contact-subject" name="subject" placeholder="Subject" required>
 </div>
 </div>
 <div class="col-12">
 <div class="form-group">
-<textarea class="form-control" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+<textarea class="form-control" name="message" id="message" cols="30" rows="10" placeholder="Message" required></textarea>
 </div>
 </div>
 <div class="col-12">
-<button type="submit" class="btn sonar-btn">Contact Me</button>
+<div class="map-prompt">
+<p>Please select a preferred meeting location on the map below:</p>
 </div>
 </div>
+<div class="col-12">
+<button type="submit" class="btn sonar-btn" id="submit-btn">Contact Me</button>
+</div>
+</div>
+<!-- Hidden fields for coordinates -->
+<input type="hidden" id="location-lat" name="location_lat">
+<input type="hidden" id="location-lng" name="location_lng">
 </form>
 </div>
 </div>
@@ -183,7 +393,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </section>
 
 <div class="map-area">
-<div id="googleMap" class="googleMap"></div>
+    <div id="map" style="border-radius: 5px;"></div>
+    <div class="coordinates-display">
+        <span id="coordinates-text">Click on the map to set a meeting location</span>
+    </div>
+    <div class="map-instructions">
+        <p>Click on the map or drag the marker to select your preferred meeting location.</p>
+    </div>
 </div>
 
 <footer class="footer-area">
@@ -195,12 +411,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <div class="container">
 <div class="row">
 <div class="col-12">
- -->
 <div class="copywrite-text">
 <p>
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This website was made with <i class="fa fa-heart-o" aria-hidden="true"></i> by Salem Loumissi 
 
 </p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -218,9 +435,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <script src="js/active.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s"></script>
-<script src="js/map-active.js"></script>
-
+<!-- Remove Google Maps error handler and script -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -230,5 +445,218 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   gtag('config', 'UA-23581568-13');
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"8127b2479f43d656","version":"2023.8.0","b":1,"token":"cd0b4b3a733644fc843ef0b185f98241","si":100}' crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
+        const coordinatesText = document.getElementById('coordinates-text');
+        
+        // Initialize the map
+        var map = L.map('map').setView([45.508888, -73.561668], 12); // Montreal coordinates
+
+        // Add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Add a marker
+        var marker = L.marker([45.508888, -73.561668], {
+            draggable: true
+        }).addTo(map);
+
+        // Update marker position when a search result is found
+        map.on('geosearch/showlocation', function(e) {
+            marker.setLatLng(e.location);
+            getAddressFromLatLng(e.location);
+        });
+
+        // Update coordinates when the marker is dragged
+        marker.on('dragend', function(event) {
+            updateCoordinates(marker.getLatLng());
+        });
+
+        // Update coordinates when the map is clicked
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            updateCoordinates(e.latlng);
+        });
+
+        // Function to get address from coordinates using reverse geocoding
+        async function getAddressFromLatLng(latlng) {
+            try {
+                // Add timestamp to avoid caching issues
+                const timestamp = new Date().getTime();
+                const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}&zoom=18&addressdetails=1&accept-language=en,fr&_=${timestamp}`;
+                
+                console.log("Fetching address for coordinates:", latlng);
+                
+                // Set a timeout for the fetch
+                const fetchPromise = fetch(url);
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Request timed out')), 5000)
+                );
+                
+                // Race between fetch and timeout
+                const response = await Promise.race([fetchPromise, timeoutPromise]);
+                const data = await response.json();
+                
+                console.log("Reverse geocoding response:", data);
+                
+                if (data && data.display_name) {
+                    // Update the message with the address
+                    updateWithAddress(data.display_name, latlng);
+                } else {
+                    // Fallback to coordinates only
+                    updateWithCoordinatesOnly(latlng);
+                }
+            } catch (error) {
+                console.error('Error getting address:', error);
+                // Fallback to coordinates only
+                updateWithCoordinatesOnly(latlng);
+            }
+        }
+        
+        // Function to update with just coordinates when address lookup fails
+        function updateWithCoordinatesOnly(latlng) {
+            // Update hidden form fields
+            document.getElementById('location-lat').value = latlng.lat;
+            document.getElementById('location-lng').value = latlng.lng;
+            
+            var lat = latlng.lat.toFixed(6);
+            var lng = latlng.lng.toFixed(6);
+            
+            // Update the coordinates display
+            coordinatesText.textContent = `Selected location: Latitude: ${lat}, Longitude: ${lng}`;
+            
+            // Store the location info with just coordinates
+            const hiddenLocationInfo = `Meeting Location:\nLatitude: ${lat}\nLongitude: ${lng}`;
+            
+            // Store the hidden location info in a data attribute on the form
+            form.setAttribute('data-location', hiddenLocationInfo);
+        }
+
+        // Function to update message with address and coordinates
+        function updateWithAddress(address, latlng) {
+            // Update hidden form fields
+            document.getElementById('location-lat').value = latlng.lat;
+            document.getElementById('location-lng').value = latlng.lng;
+            
+            // Create a hidden location string for the email
+            var lat = latlng.lat.toFixed(6);
+            var lng = latlng.lng.toFixed(6);
+            
+            // Update the coordinates display
+            coordinatesText.textContent = `Selected location: Latitude: ${lat}, Longitude: ${lng}`;
+            
+            // Store the location info in a hidden field instead of modifying the visible message
+            const hiddenLocationInfo = `Meeting Location: ${address}\nLatitude: ${lat}\nLongitude: ${lng}`;
+            
+            // Store the hidden location info in a data attribute on the form
+            form.setAttribute('data-location', hiddenLocationInfo);
+        }
+
+        // Function to update coordinates in the form
+        function updateCoordinates(latlng) {
+            // Update hidden form fields
+            document.getElementById('location-lat').value = latlng.lat;
+            document.getElementById('location-lng').value = latlng.lng;
+            
+            // Get reverse geocoding for the address
+            getAddressFromLatLng(latlng);
+        }
+
+        // Update coordinates initially
+        updateCoordinates(marker.getLatLng());
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            form.classList.add('submitting');
+            submitBtn.classList.add('loading');
+            showStatus('Sending your message...', 'loading');
+            
+            try {
+                // Get form data
+                const formData = new FormData(form);
+                const userMessage = formData.get('message');
+                const hiddenLocation = form.getAttribute('data-location') || '';
+                
+                // Combine user message with hidden location data
+                const completeMessage = userMessage + '\n\n' + hiddenLocation;
+                
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    subject: formData.get('subject'),
+                    message: completeMessage,
+                    location_lat: formData.get('location_lat'),
+                    location_lng: formData.get('location_lng')
+                };
+                
+                console.log('Sending email with data:', data); // Debug log
+                
+                // Send email using EmailJS
+                const response = await emailjs.send(
+                    "service_t0ou0hb",
+                    "template_ez4ehpb",
+                    data
+                ).catch(error => {
+                    console.error('EmailJS Error:', error);
+                    throw error;
+                });
+                
+                console.log('EmailJS response:', response); // Debug log
+                
+                if (response.status === 200) {
+                    showStatus('Thank you! Your message has been sent successfully.', 'success');
+                    form.reset();
+                    
+                    // Reset marker position
+                    marker.setLatLng([45.508888, -73.561668]);
+                    map.setView([45.508888, -73.561668], 12);
+                } else {
+                    throw new Error(`Failed to send email. Status: ${response.status}`);
+                }
+                
+            } catch (error) {
+                // Show detailed error message
+                console.error('Detailed error:', error);
+                let errorMessage = 'Failed to send message. Please try again.';
+                
+                if (error.text) {
+                    try {
+                        const errorData = JSON.parse(error.text);
+                        errorMessage = errorData.message || errorMessage;
+                    } catch (e) {
+                        errorMessage = error.text || errorMessage;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                
+                showStatus(`Error: ${errorMessage}`, 'error');
+                
+            } finally {
+                // Remove loading state
+                form.classList.remove('submitting');
+                submitBtn.classList.remove('loading');
+                
+                // Hide status message after 5 seconds
+                setTimeout(() => {
+                    formStatus.style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        function showStatus(message, type) {
+            formStatus.textContent = message;
+            formStatus.className = type;
+            formStatus.style.display = 'block';
+        }
+    });
+</script>
 </body>
 </html>
