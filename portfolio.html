@@ -16,6 +16,14 @@
             color: #333;
             line-height: 1.6;
             background-color: #f9f9f9;
+            /* Improve mobile scrolling */
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        html {
+            /* Prevent scroll bounce on the entire page */
+            overscroll-behavior: none;
         }
 
         /* Preloader Styles */
@@ -971,12 +979,12 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         <div class="lightbox-content">
             <img src="" alt="" class="lightbox-image" id="lightbox-image">
             <div class="lightbox-caption" id="lightbox-caption"></div>
-        </div>
+</div>
         <div class="lightbox-controls">
             <button class="lightbox-control" id="lightbox-toggle"><i class="fa fa-play-circle"></i> Play Slideshow</button>
             <button class="lightbox-control" id="lightbox-fullscreen"><i class="fa fa-expand"></i> Fullscreen</button>
-        </div>
-    </div>
+</div>
+</div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1572,7 +1580,57 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/active.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Portfolio page loaded - English version');
+            console.log('Portfolio page loaded');
+            
+            // Fix for mobile scrolling issues
+            let lastY = 0;
+            let scrolling = false;
+            
+            // Prevent elastic scrolling/bouncing on mobile
+            function preventElasticScrolling() {
+                // Only apply these fixes on mobile devices
+                if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) return;
+                
+                document.addEventListener('touchstart', function(e) {
+                    lastY = e.touches[0].clientY;
+                }, { passive: false });
+                
+                document.addEventListener('touchmove', function(e) {
+                    // Skip if lightbox is open
+                    if (lightbox.classList.contains('active')) return;
+                    
+                    const currentY = e.touches[0].clientY;
+                    const direction = currentY > lastY ? 'up' : 'down';
+                    
+                    // Check if we're at the top or bottom of the page
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight;
+                    const clientHeight = document.documentElement.clientHeight;
+                    
+                    // If scrolled to top and trying to scroll up further, or
+                    // scrolled to bottom and trying to scroll down further, prevent default
+                    if ((scrollTop <= 0 && direction === 'up') || 
+                        (scrollTop + clientHeight >= scrollHeight && direction === 'down')) {
+                        e.preventDefault();
+                    }
+                    
+                    // Update last position
+                    lastY = currentY;
+                }, { passive: false });
+                
+                // Prevent momentum scrolling conflicts
+                let touchTimeout;
+                document.addEventListener('scroll', function() {
+                    scrolling = true;
+                    clearTimeout(touchTimeout);
+                    touchTimeout = setTimeout(function() {
+                        scrolling = false;
+                    }, 100);
+                }, { passive: true });
+            }
+            
+            // Call the function to initialize the fix
+            preventElasticScrolling();
             
             // Loading bar animation
             const loadingBar = document.querySelector('.loading-bar');
@@ -1632,6 +1690,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     console.log('Activated button:', filter);
                 } else {
                     console.log('Button not found for filter:', filter);
+                }
+                
+                // Handle scrolling position - scroll to top of portfolio section when changing categories
+                if (filter !== 'all') {
+                    const portfolioSection = document.querySelector('.portfolio');
+                    const portfolioTop = portfolioSection.getBoundingClientRect().top + window.pageYOffset - 100;
+                    window.scrollTo({
+                        top: portfolioTop,
+                        behavior: 'smooth'
+                    });
                 }
                 
                 // Hide all items first without changing their position in the document flow
