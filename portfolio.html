@@ -25,6 +25,43 @@
             /* Prevent scroll bounce on the entire page */
             overscroll-behavior: none;
         }
+        
+        /* iOS Safari specific CSS fixes */
+        @supports (-webkit-touch-callout: none) {
+            html, body {
+                /* Height reset for iOS */
+                height: -webkit-fill-available;
+                /* Prevent rubber band scrolling */
+                overflow-x: hidden;
+                /* Set initial momentum scrolling */
+                -webkit-overflow-scrolling: touch;
+                /* Disable elastic bounce effect */
+                overscroll-behavior-y: contain;
+                position: relative;
+            }
+            
+            /* Completely disable scroll bounce in iOS */
+            html {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+            }
+            
+            .portfolio-grid {
+                /* Improve GPU acceleration for iOS */
+                transform: translateZ(0);
+                -webkit-transform: translateZ(0);
+                -webkit-perspective: 1000;
+                -webkit-backface-visibility: hidden;
+            }
+            
+            .portfolio-item {
+                /* Force hardware acceleration for smoother animations */
+                transform: translate3d(0, 0, 0);
+                -webkit-transform: translate3d(0, 0, 0);
+            }
+        }
 
         /* Preloader Styles */
         #preloader {
@@ -1585,48 +1622,151 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             // Fix for mobile scrolling issues
             let lastY = 0;
             let scrolling = false;
+            let isScrolling = false;
+            let scrollTimeout = null;
             
             // Prevent elastic scrolling/bouncing on mobile
             function preventElasticScrolling() {
-                // Only apply these fixes on mobile devices
-                if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) return;
+                // iOS specific detection
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                 
-                document.addEventListener('touchstart', function(e) {
-                    lastY = e.touches[0].clientY;
-                }, { passive: false });
-                
-                document.addEventListener('touchmove', function(e) {
-                    // Skip if lightbox is open
-                    if (lightbox.classList.contains('active')) return;
+                if (isIOS) {
+                    // iOS-specific fixes to prevent scroll bounce
                     
-                    const currentY = e.touches[0].clientY;
-                    const direction = currentY > lastY ? 'up' : 'down';
+                    // Variables for tracking touch and scroll
+                    let startY = 0;
+                    let startX = 0;
+                    let lastY = 0;
+                    let currentY = 0;
+                    let scrollTop = 0;
+                    let startTime = 0;
+                    let scrolling = false;
                     
-                    // Check if we're at the top or bottom of the page
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const scrollHeight = document.documentElement.scrollHeight;
-                    const clientHeight = document.documentElement.clientHeight;
+                    // Start of touch
+                    document.addEventListener('touchstart', function(e) {
+                        if (lightbox.classList.contains('active')) return;
+                        
+                        if (e.touches.length === 1) {
+                            startY = e.touches[0].clientY;
+                            startX = e.touches[0].clientX;
+                            lastY = startY;
+                            scrolling = false;
+                            startTime = Date.now();
+                            
+                            // Store current scroll position
+                            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        }
+                    }, { passive: true });
                     
-                    // If scrolled to top and trying to scroll up further, or
-                    // scrolled to bottom and trying to scroll down further, prevent default
-                    if ((scrollTop <= 0 && direction === 'up') || 
-                        (scrollTop + clientHeight >= scrollHeight && direction === 'down')) {
-                        e.preventDefault();
-                    }
+                    // During touch move
+                    document.addEventListener('touchmove', function(e) {
+                        if (lightbox.classList.contains('active')) return;
+                        
+                        if (e.touches.length === 1) {
+                            currentY = e.touches[0].clientY;
+                            const currentX = e.touches[0].clientX;
+                            
+                            // Check if this is primarily a vertical scroll
+                            const deltaY = Math.abs(currentY - startY);
+                            const deltaX = Math.abs(currentX - startX);
+                            
+                            if (deltaY > deltaX) {
+                                scrolling = true;
+                                
+                                // Calculate scroll delta
+                                const touchDelta = currentY - lastY;
+                                
+                                // Calculate new scroll position
+                                const newScrollTop = scrollTop - touchDelta;
+                                
+                                // Get page boundaries
+                                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                                
+                                // Apply boundaries
+                                const boundedScrollTop = Math.max(0, Math.min(newScrollTop, maxScroll));
+                                
+                                // Apply scroll with smooth behavior
+                                window.scrollTo({
+                                    top: boundedScrollTop,
+                                    behavior: 'auto' // Use auto for immediate response
+                                });
+                                
+                                // If at boundaries, prevent default to stop the rubber-band effect
+                                if ((boundedScrollTop <= 0 && touchDelta > 0) || 
+                                    (boundedScrollTop >= maxScroll && touchDelta < 0)) {
+                                    e.preventDefault();
+                                }
+                                
+                                // Update for next move
+                                lastY = currentY;
+                            }
+                        }
+                    }, { passive: false });
                     
-                    // Update last position
-                    lastY = currentY;
-                }, { passive: false });
-                
-                // Prevent momentum scrolling conflicts
-                let touchTimeout;
-                document.addEventListener('scroll', function() {
-                    scrolling = true;
-                    clearTimeout(touchTimeout);
-                    touchTimeout = setTimeout(function() {
-                        scrolling = false;
-                    }, 100);
-                }, { passive: true });
+                    // End of touch
+                    document.addEventListener('touchend', function(e) {
+                        if (scrolling) {
+                            // Calculate scroll momentum based on velocity
+                            const endTime = Date.now();
+                            const velocity = (currentY - startY) / (endTime - startTime);
+                            
+                            // Apply momentum only if significant velocity detected
+                            if (Math.abs(velocity) > 0.5) {
+                                const momentum = velocity * 500; // Adjust multiplier for momentum feel
+                                const momentumScrollTop = scrollTop - momentum;
+                                
+                                // Apply boundaries
+                                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                                const boundedMomentumScrollTop = Math.max(0, Math.min(momentumScrollTop, maxScroll));
+                                
+                                // Apply momentum scroll
+                                window.scrollTo({
+                                    top: boundedMomentumScrollTop,
+                                    behavior: 'smooth'
+                                });
+                            }
+                            
+                            scrolling = false;
+                        }
+                    }, { passive: true });
+                    
+                    // Track start time for velocity calculation
+                    let startTime;
+                    document.addEventListener('touchstart', function() {
+                        startTime = Date.now();
+                    }, { passive: true });
+                    
+                } else {
+                    // Non-iOS mobile devices
+                    if (!/Android/.test(navigator.userAgent)) return;
+                    
+                    document.addEventListener('touchstart', function(e) {
+                        lastY = e.touches[0].clientY;
+                    }, { passive: false });
+                    
+                    document.addEventListener('touchmove', function(e) {
+                        // Skip if lightbox is open
+                        if (lightbox.classList.contains('active')) return;
+                        
+                        const currentY = e.touches[0].clientY;
+                        const direction = currentY > lastY ? 'up' : 'down';
+                        
+                        // Check if we're at the top or bottom of the page
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const scrollHeight = document.documentElement.scrollHeight;
+                        const clientHeight = document.documentElement.clientHeight;
+                        
+                        // If scrolled to top and trying to scroll up further, or
+                        // scrolled to bottom and trying to scroll down further, prevent default
+                        if ((scrollTop <= 0 && direction === 'up') || 
+                            (scrollTop + clientHeight >= scrollHeight && direction === 'down')) {
+                            e.preventDefault();
+                        }
+                        
+                        // Update last position
+                        lastY = currentY;
+                    }, { passive: false });
+                }
             }
             
             // Call the function to initialize the fix
